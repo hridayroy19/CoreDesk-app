@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FaCog, FaHome, FaBars, FaTimes } from "react-icons/fa";
 import { IoCreateOutline } from "react-icons/io5";
 import { CiSettings } from "react-icons/ci";
+import { MdLogout } from "react-icons/md";
+import { logout } from "@/utlis/actions/AuthService";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -71,13 +73,13 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link
-              href="/"
+            <div
+            onClick={async () => await logout()}
               className="flex items-center space-x-2  p-3 rounded-md hover:bg-gray-500 text-white"
             >
-              <CiSettings className="h-5  w-5" />
-              <span>Setting</span>
-            </Link>
+              <MdLogout className="h-5  w-5" />
+              <span> LogOut</span>
+            </div>
           </li>
         </ul>
       </div>

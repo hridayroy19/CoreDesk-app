@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { navLinks } from "../../../constant/constant";
 import Link from "next/link";
 import { HiBars3BottomLeft } from "react-icons/hi2";
 import { useEffect, useState } from "react";
-import { signOut } from "next-auth/react";
+import { currentUser } from "@/utlis/actions/AuthService";
 
 //props type
 type Props = {
@@ -17,8 +18,20 @@ type Props = {
   } | null;
 };
 
-const Nav = ({ openNav, session }: Props) => {
+const Nav = ({ openNav }: Props) => {
   // console.log(session);
+
+  const [user, setUser] = useState<any>(null);
+  console.log(user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await currentUser();
+      setUser(data);
+      // console.log(data);
+    };
+    fetchData();
+  }, []);
 
   const [navBg, setNavBg] = useState(false);
 
@@ -60,13 +73,12 @@ const Nav = ({ openNav, session }: Props) => {
           </div>
           {/* button */}
           <div className=" flex items-center space-x-4">
-            {session?.user ? (
-              <button
-                onClick={() => signOut()}
-                className="text-white bg-blue-950 border-2 py-1 px-3 text-sm"
-              >
-                Logout
-              </button>
+            {user ? (
+              <Link href="dashboard">
+                <button className="text-white bg-blue-950 border-2 py-1 px-3 text-sm">
+                  Dashboard
+                </button>
+              </Link>
             ) : (
               <Link href="/login">
                 <button className="text-white border-2 py-1 px-3 text-sm">
